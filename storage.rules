@@ -1,0 +1,29 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Profile pictures: /profile_pictures/{uid}/avatar.jpg
+    match /profile_pictures/{uid}/{fileName} {
+      allow read:  if request.auth != null;           // any signed-in user can view avatars
+      allow write: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.size < 5 * 1024 * 1024   // max 5 MB
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // Progress photos: /progress_photos/{uid}/{photoId}
+    match /progress_photos/{uid}/{photoId} {
+      allow read:  if request.auth != null && request.auth.uid == uid;
+      allow write: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.size < 10 * 1024 * 1024  // max 10 MB
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // Deny everything else
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

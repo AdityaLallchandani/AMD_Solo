@@ -1,0 +1,43 @@
+/users/{uid}
+  ├── uid, email, displayName, photoURL
+  ├── onboardingComplete: boolean
+  ├── goals: { dailyCalories, proteinGrams, carbsGrams, fatGrams }
+  ├── metrics: { heightCm, weightKg, age, gender }
+  └── createdAt: Timestamp
+
+/users/{uid}/daily_logs/{YYYY-MM-DD}
+  ├── totalCalories, totalProtein, totalCarbs, totalFat
+  ├── waterMl: number
+  ├── fastingStart: Timestamp | null
+  └── /meals/{mealId}
+      ├── name, calories, protein, carbs, fat
+      ├── mealType: "breakfast" | "lunch" | "dinner" | "snack"
+      └── loggedAt: Timestamp
+
+/users/{uid}/daily_logs/{YYYY-MM-DD}/workouts/{workoutId}
+  ├── type, durationMinutes, caloriesBurned
+  └── source: "manual" | "google_fit"
+
+/saved_recipes/{recipeId}
+  ├── authorUid, title, ingredients[], instructions
+  ├── macros: { calories, protein, carbs, fat }
+  └── createdAt: Timestamp
+
+
+  /users/{uid} = {
+  onboardingComplete: true,
+  metrics: {
+    heightCm,
+    weightKg,
+    age,
+    gender,
+    activityLevel,
+    goal
+  },
+  goals: {
+    dailyCalories,
+    proteinGrams,
+    carbsGrams,
+    fatGrams
+  }
+}

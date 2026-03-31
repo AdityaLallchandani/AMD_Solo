@@ -1,0 +1,84 @@
+food-health-tracker/
+├── public/
+│   └── icons/                        # App icons & PWA manifest assets
+│
+├── src/
+│   ├── app/                          # Next.js 15 App Router
+│   │   ├── (auth)/                   # Route group — no shared layout
+│   │   │   ├── login/
+│   │   │   │   └── page.jsx
+│   │   │   └── onboarding/
+│   │   │       └── page.jsx
+│   │   │
+│   │   ├── (dashboard)/              # Route group — protected layout
+│   │   │   ├── layout.jsx            # Auth guard + sidebar/nav
+│   │   │   ├── dashboard/
+│   │   │   │   └── page.jsx          # Module B: Macro rings + daily stats
+│   │   │   ├── log/
+│   │   │   │   └── page.jsx          # Module C: Food search, water, fasting
+│   │   │   └── ai-coach/
+│   │   │       └── page.jsx          # Module D: Vertex AI chat interface
+│   │   │
+│   │   ├── api/                      # Next.js Route Handlers (server-only)
+│   │   │   ├── ai-coach/
+│   │   │   │   └── route.js          # Proxies to Vertex AI (keeps keys server-side)
+│   │   │   ├── vision/
+│   │   │   │   └── route.js          # Cloud Vision OCR & food recognition
+│   │   │   └── places/
+│   │   │       └── route.js          # Google Maps Places API proxy
+│   │   │
+│   │   ├── layout.jsx                # Root layout with AuthProvider
+│   │   └── page.jsx                  # Redirect → /login or /dashboard
+│   │
+│   ├── components/
+│   │   ├── auth/
+│   │   │   ├── GoogleLoginButton.jsx # Module A: One-tap Google login
+│   │   │   └── OnboardingForm.jsx    # Multi-step metrics + goals form
+│   │   ├── dashboard/
+│   │   │   ├── MacroRing.jsx         # Animated SVG ring for macros
+│   │   │   ├── CalorieProgressBar.jsx
+│   │   │   └── DailyStats.jsx        # Summary cards
+│   │   ├── logging/
+│   │   │   ├── FoodSearch.jsx        # Debounced search + log action
+│   │   │   ├── WaterTracker.jsx      # Tap-to-add water intake
+│   │   │   └── FastingTimer.jsx      # Countdown + elapsed timer
+│   │   ├── ai-coach/
+│   │   │   └── ChatInterface.jsx     # Streaming chat UI
+│   │   └── ui/                       # Reusable primitives
+│   │       ├── Button.jsx
+│   │       ├── Card.jsx
+│   │       └── Input.jsx
+│   │
+│   ├── lib/
+│   │   ├── firebase/
+│   │   │   ├── firebaseConfig.js     # Client SDK init (THIS FILE ↓)
+│   │   │   ├── firebaseAdmin.js      # Admin SDK for API routes
+│   │   │   └── firestore.js          # Typed Firestore helper functions
+│   │   ├── gcp/
+│   │   │   ├── vertexAI.js           # Vertex AI / Gemini client
+│   │   │   ├── vision.js             # Cloud Vision API wrapper
+│   │   │   └── storage.js            # GCS upload/download helpers
+│   │   └── hooks/
+│   │       ├── useAuth.js            # Consumes AuthContext
+│   │       ├── useDailyLog.js        # Real-time Firestore subscription
+│   │       └── useMacros.js          # Calculated macro progress
+│   │
+│   ├── context/
+│   │   └── AuthContext.jsx           # Global Firebase auth state
+│   │
+│   └── styles/
+│       └── globals.css               # Tailwind v4 directives
+│
+├── functions/                        # Firebase Cloud Functions (Node.js)
+│   ├── index.js                      # Exports all functions
+│   ├── nightlyReset.js               # Scheduled: midnight log reset
+│   └── macroCalculations.js          # onCreate trigger: calculate TDEE
+│
+├── .env.local                        # Secret keys (never commit)
+├── .env.example                      # Safe template to commit
+├── next.config.js
+├── tailwind.config.js
+├── firebase.json                     # Firebase CLI project config
+├── firestore.rules                   # Security rules
+├── firestore.indexes.json
+└── package.json

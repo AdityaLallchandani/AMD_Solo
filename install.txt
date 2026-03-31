@@ -1,0 +1,16 @@
+# 1. Verify Node.js 22+ is installed
+node --version   # must show v22.x.x or higher
+
+# 2. Install Firebase CLI globally
+npm install -g firebase-tools
+
+# 3. Verify Firebase CLI installed
+firebase --version   # must show 13.x or higher
+
+# 4. Install Google Cloud CLI
+# → Go to https://cloud.google.com/sdk/docs/install
+# → Download for your OS (Windows / macOS / Linux)
+# → Run the installer, then open a NEW terminal window
+
+# 5. Verify gcloud installed
+gcloud --version
